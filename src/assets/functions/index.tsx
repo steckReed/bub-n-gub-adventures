@@ -1,0 +1,1 @@
+export { type smallMedium, type smallMediumLarge } from './types/types';

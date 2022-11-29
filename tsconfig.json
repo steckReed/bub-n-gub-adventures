@@ -1,0 +1,58 @@
+{
+  "compilerOptions": { 
+    "target": "es5",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": false,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "incremental": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "baseUrl": "./",
+      "paths": {
+        // Main
+        "@Root/*"                   : ["*"],                                         // Root Directory
+        "@Api/*"                    : ["src/pages/api/*"],                           // Api
+        "@Assets/*"                 : ["src/assets/*"],                              // Assets
+        "@Components/*"             : ["src/components/*"],                          // Components
+        "@Database/*"               : ["src/database/*"],                            // Databases
+        "@Pages/*"                  : ["src/pages/*"],                               // Pages
+
+        // Custom
+        "@Images/*"                 : ["src/assets/images/*"],                       // Shortcut to Images
+        "@Functions/*"              : ["src/assets/functions/*"],                    // Shortcut to Functions
+        "@Styles/*"                 : ["src/assets/SCSS/*"],                         // Shortcut to SCSS
+        "@Elements/*"               : ["src/components/elements/*"],                 // Shortcut to Elements
+        "@Modules/*"                : ["src/components/modules/*"],                  // Shortcut to Modules
+        "@npm/*"                    : ["node_modules/*"],                            // For npm Packages
+
+        // Official FortisureIT Libraries
+        "@FIT-Library/*"            : ["node_modules/@npm-fortisureit/npm-fit-next-library/*"],
+        "@FIT-Library-Components/*" : ["node_modules/@npm-fortisureit/npm-fit-next-library/components*"],
+        "@FIT-Library-Elements/*"   : ["node_modules/@npm-fortisureit/npm-fit-next-library/components/elements/*"],
+        "@FIT-Library-Modules/*"    : ["node_modules/@npm-fortisureit/npm-fit-next-library/components/modules/*"],
+        // "@FIT-Login-b2c/*"       : ["node_modules/fit-next-login-b2c/*"],       // Shortcut to npm fit-next-login-b2c (Uncomment if installed)
+        // "@FIT-Login-firebase/*"  : ["node_modules/fit-next-login-firebase/*"],  // Shortcut to npm fit-next-login-firebase (Uncomment if installed)
+        // "@FIT-Payments-Stripe/*" : ["node_modules/fit-next-payments-stripe/*"], // Shortcut to npm fit-next-payments-stripe (Uncomment if installed)
+      }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx", 
+    "headers.js"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
