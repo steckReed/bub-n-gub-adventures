@@ -1,6 +1,5 @@
 import { LogoJsonLd, NextSeo } from "next-seo";
 import { PageSEO } from "@Modules/SEO";
-import { motion } from 'framer-motion';
 import { useKeenSlider } from "keen-slider/react"
 import "keen-slider/keen-slider.min.css"
 import ImageContainer from '../components/modules/imageContainer/imageContainer';
