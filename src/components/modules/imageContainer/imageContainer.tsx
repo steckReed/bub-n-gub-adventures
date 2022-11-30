@@ -17,7 +17,7 @@ export default function ImageContainer({ reqImg, i }){
           width:"max-content",
         }} >
 
-      <Image
+      {/* <Image
         src={reqImg} // Route of the image file
         height={200}
         width={250}
@@ -25,7 +25,7 @@ export default function ImageContainer({ reqImg, i }){
         style={{
           width: '100%',
         }}
-      />
+      /> */}
     </div>
   </>
   )
