@@ -43,6 +43,16 @@
       'light' : $light-tertiary,
       'dark'  : $dark-tertiary,
     ),
+
+    
+    'custom':(
+      'light' : $dark-font-primary,
+      'dark'  : $dark-primary,
+    ),
+    'custom-inverse':(
+      'light' : $dark-primary,
+      'dark'  : $dark-font-primary,
+    ),
   );
 // Auto Class Generator
 

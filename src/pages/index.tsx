@@ -17,7 +17,7 @@ export default function Home() {
   // SEO
 
   
-  const imagesArr =[
+  const imagesArrTop =[
     '/images/img-1.jpg',
     '/images/img-2.jpg',
     '/images/img-3.jpg',
@@ -33,6 +33,8 @@ export default function Home() {
     '/images/img-13.jpg',
     '/images/img-14.jpg',
     '/images/img-15.jpg',
+  ]
+  const imagesArrMiddle = [
     '/images/img-16.jpg',
     '/images/img-17.jpg',
     '/images/img-18.jpg',
@@ -48,6 +50,8 @@ export default function Home() {
     '/images/img-28.jpg',
     '/images/img-29.jpg',
     '/images/img-30.jpg',
+  ]
+  const imagesArrBottom = [
     '/images/img-31.jpg',
     '/images/img-32.jpg',
     '/images/img-33.jpg',
@@ -67,12 +71,42 @@ export default function Home() {
     '/images/img-47.jpg'
   ]
 
-  const animation = { duration: (imagesArr.length * 1000), easing: (t) => t }
+  const animation = { duration: (imagesArrMiddle.length * 2700), easing: (t) => t }
 
   const [sliderTop] = useKeenSlider({
     loop: true,
     renderMode: "performance",
-    drag: false,
+    drag: true,
+    slides: { perView: "auto", spacing: 10 },
+    created(s) {
+      s.moveToIdx(5, true, animation)
+    },
+    updated(s) {
+      s.moveToIdx(s.track.details.abs + 5, true, animation)
+    },
+    animationEnded(s) {
+      s.moveToIdx(s.track.details.abs + 5, true, animation)
+    },
+  })
+  const [sliderMiddle] = useKeenSlider({
+    loop: true,
+    renderMode: "performance",
+    drag: true,
+    slides: { perView: "auto", spacing: 10 },
+    created(s) {
+      s.moveToIdx(-5, true, animation)
+    },
+    updated(s) {
+      s.moveToIdx(s.track.details.abs - 5, true, animation)
+    },
+    animationEnded(s) {
+      s.moveToIdx(s.track.details.abs - 5, true, animation)
+    },
+  })
+  const [sliderBottom] = useKeenSlider({
+    loop: true,
+    renderMode: "performance",
+    drag: true,
     slides: { perView: "auto", spacing: 10 },
     created(s) {
       s.moveToIdx(5, true, animation)
@@ -90,10 +124,11 @@ export default function Home() {
       <LogoJsonLd {...SEO.LogoJsonLd} />
       <NextSeo {...SEO.DefaultSeo} />
       
-      <div className='grid-container'>
+      <div className='grid-container-custom'>
         
         <section className='grid'>
-          <h1 className='text color-dark-primary' style={{ textAlign:"center" }}>The Amazing Adventures of Bub N' Gub</h1>
+          <h1 className='text color-custom-inverse' 
+              style={{ textAlign:"center", padding:"0px 40px" }}>The Amazing Adventures of Bub N' Gub</h1>
 
           <div className='flex-wrap'
               style={{ overflow: "hidden" }}>
@@ -101,9 +136,41 @@ export default function Home() {
             <div ref={sliderTop} className="keen-slider" 
                   style={{ overflow: "visible" }}>
 
-              {imagesArr.map((element, i) => {
+              {imagesArrTop.map((element, i) => {
                 return (
                   <ImageContainer reqImg={element} i={i+1} />
+                )
+              })}
+
+            </div>
+
+          </div>
+
+          <div className='flex-wrap'
+            style={{ overflow: "hidden" }}>
+
+            <div ref={sliderMiddle} className="keen-slider"
+              style={{ overflow: "visible" }}>
+
+              {imagesArrMiddle.map((element, i) => {
+                return (
+                  <ImageContainer reqImg={element} i={i + 1} />
+                )
+              })}
+
+            </div>
+
+          </div>
+
+          <div className='flex-wrap'
+            style={{ overflow: "hidden" }}>
+
+            <div ref={sliderBottom} className="keen-slider"
+              style={{ overflow: "visible" }}>
+
+              {imagesArrBottom.map((element, i) => {
+                return (
+                  <ImageContainer reqImg={element} i={i + 1} />
                 )
               })}
 

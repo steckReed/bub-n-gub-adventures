@@ -19,7 +19,7 @@ export default function ImageContainer({ reqImg, i }){
 
       <Image
         src={reqImg} // Route of the image file
-        height={250}
+        height={200}
         width={250}
         alt='Your Name'
         style={{
