@@ -30,6 +30,7 @@
 
         // Custom
         "@Images/*"                 : ["src/assets/images/*"],                       // Shortcut to Images
+        "@PublicImages/*"           : ["public/images/*"],                       // Shortcut to Images
         "@Functions/*"              : ["src/assets/functions/*"],                    // Shortcut to Functions
         "@Styles/*"                 : ["src/assets/SCSS/*"],                         // Shortcut to SCSS
         "@Elements/*"               : ["src/components/elements/*"],                 // Shortcut to Elements
