@@ -130,7 +130,7 @@ export default function Home() {
           <h1 className='text color-custom-inverse' 
               style={{ textAlign:"center", padding:"0px 40px" }}>The Amazing Adventures of Bub N' Gub</h1>
 
-          <div className='flex-wrap'
+          {/* <div className='flex-wrap'
               style={{ overflow: "hidden" }}>
 
             <div ref={sliderTop} className="keen-slider" 
@@ -176,7 +176,7 @@ export default function Home() {
 
             </div>
 
-          </div>
+          </div> */}
         </section>
       </div>
 
