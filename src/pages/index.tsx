@@ -1,6 +1,8 @@
 import { LogoJsonLd, NextSeo } from "next-seo";
 import { PageSEO } from "@Modules/SEO";
 import { motion } from 'framer-motion';
+import { useKeenSlider } from "keen-slider/react"
+import "keen-slider/keen-slider.min.css"
 import ImageContainer from '../components/modules/imageContainer/imageContainer';
 
 export default function Home() {
@@ -14,6 +16,7 @@ export default function Home() {
     });
   // SEO
 
+  
   const imagesArr =[
     '/images/img-1.jpg',
     '/images/img-2.jpg',
@@ -64,6 +67,24 @@ export default function Home() {
     '/images/img-47.jpg'
   ]
 
+  const animation = { duration: (imagesArr.length * 1000), easing: (t) => t }
+
+  const [sliderTop] = useKeenSlider({
+    loop: true,
+    renderMode: "performance",
+    drag: false,
+    slides: { perView: "auto", spacing: 10 },
+    created(s) {
+      s.moveToIdx(5, true, animation)
+    },
+    updated(s) {
+      s.moveToIdx(s.track.details.abs + 5, true, animation)
+    },
+    animationEnded(s) {
+      s.moveToIdx(s.track.details.abs + 5, true, animation)
+    },
+  })
+
   return (
     <>
       <LogoJsonLd {...SEO.LogoJsonLd} />
@@ -74,26 +95,25 @@ export default function Home() {
         <section className='grid'>
           <h1 className='text color-dark-primary' style={{ textAlign:"center" }}>The Amazing Adventures of Bub N' Gub</h1>
 
-          <motion.div
-            // animate={{ x: "100%" }}
-            // transition={{ repeat: Infinity, duration: 15 }}
-          >
-            
-            <div className="flex-wrap" style={{ width: '100vw' }}>
-              <>
-                {imagesArr.map(element => {
-                  return (
-                    <ImageContainer reqImg={element} />
-                  )
-                })}
-              </>
+          <div className='flex-wrap'
+              style={{ overflow: "hidden" }}>
+
+            <div ref={sliderTop} className="keen-slider" 
+                  style={{ overflow: "visible" }}>
+
+              {imagesArr.map((element, i) => {
+                return (
+                  <ImageContainer reqImg={element} i={i+1} />
+                )
+              })}
+
             </div>
 
-
-          </motion.div>
+          </div>
         </section>
       </div>
 
     </>
   );
 }
+
