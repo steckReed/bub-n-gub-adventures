@@ -1,5 +1,7 @@
 import { LogoJsonLd, NextSeo } from "next-seo";
-import { PageSEO, GoogleRichResults } from "@Modules/SEO";
+import { PageSEO } from "@Modules/SEO";
+import { motion } from 'framer-motion';
+import ImageContainer from '../components/modules/imageContainer/imageContainer';
 
 export default function Home() {
   // SEO
@@ -7,63 +9,91 @@ export default function Home() {
     const SEO = PageSEO({
       siteLogo: "site/logo",
       url: `${process.env.NEXT_PUBLIC_SITE_URL}/index`,
-      title : "HOME TITLE HERE",
-      description:"HOME DESCRIPTION HERE"
+      title : "Adventure Slide",
+      description:"Bub N' Gub Adventures"
     });
-
-    // Google Indexing
-    const googleTags =  {
-      "@context": "https://schema.org/",
-      "@type": "Product", // <- https://developers.google.com/search/docs/appearance/structured-data/search-gallery
-      "name": "EXAMPLE PRODUCT NAME",
-      "image": [
-        "https://example.com/photos/1x1/photo.jpg",
-        "https://example.com/photos/4x3/photo.jpg",
-        "https://example.com/photos/16x9/photo.jpg"
-      ],
-
-      // //  OPTIONAL EXAMPLE
-        // "description": "PRODUCT DESCRIPTION",
-        // "sku": "0446310786",
-        // "mpn": "925872",
-        // "brand": {
-        //   "@type": "Brand",
-        //   "name": "ACME"
-        // },
-        // "review": {
-        //   "@type": "Review",
-        //   "reviewRating": {
-        //     "@type": "Rating",
-        //     "ratingValue": "4",
-        //     "bestRating": "5"
-        //   },
-        //   "author": {
-        //     "@type": "Person",
-        //     "name": "John Smith"
-        //   }
-        // },
-        // "aggregateRating": {
-        //   "@type": "AggregateRating",
-        //   "ratingValue": "4.4",
-        //   "reviewCount": "89"
-        // },
-        // "offers": {
-        //   "@type": "AggregateOffer",
-        //   "offerCount": "5",
-        //   "lowPrice": "119.99",
-        //   "highPrice": "199.99",
-        //   "priceCurrency": "USD"
-        // }
-      // //  OPTIONAL EXAMPLE
-    }
   // SEO
+
+  const imagesArr =[
+    '/images/img-1.jpg',
+    '/images/img-2.jpg',
+    '/images/img-3.jpg',
+    '/images/img-4.jpg',
+    '/images/img-5.jpg',
+    '/images/img-6.jpg',
+    '/images/img-7.jpg',
+    '/images/img-8.jpg',
+    '/images/img-9.jpg',
+    '/images/img-10.jpg',
+    '/images/img-11.jpg',
+    '/images/img-12.jpg',
+    '/images/img-13.jpg',
+    '/images/img-14.jpg',
+    '/images/img-15.jpg',
+    '/images/img-16.jpg',
+    '/images/img-17.jpg',
+    '/images/img-18.jpg',
+    '/images/img-19.jpg',
+    '/images/img-20.jpg',
+    '/images/img-21.jpg',
+    '/images/img-22.jpg',
+    '/images/img-23.jpg',
+    '/images/img-24.jpg',
+    '/images/img-25.jpg',
+    '/images/img-26.jpg',
+    '/images/img-27.jpg',
+    '/images/img-28.jpg',
+    '/images/img-29.jpg',
+    '/images/img-30.jpg',
+    '/images/img-31.jpg',
+    '/images/img-32.jpg',
+    '/images/img-33.jpg',
+    '/images/img-34.jpg',
+    '/images/img-35.jpg',
+    '/images/img-36.jpg',
+    '/images/img-37.jpg',
+    '/images/img-38.jpg',
+    '/images/img-39.jpg',
+    '/images/img-40.jpg',
+    '/images/img-41.jpg',
+    '/images/img-42.jpg',
+    '/images/img-43.jpg',
+    '/images/img-44.jpg',
+    '/images/img-45.jpg',
+    '/images/img-46.jpg',
+    '/images/img-47.jpg'
+  ]
 
   return (
     <>
       <LogoJsonLd {...SEO.LogoJsonLd} />
       <NextSeo {...SEO.DefaultSeo} />
-      <GoogleRichResults richTags={googleTags}/>
       
+      <div className='grid-container'>
+        
+        <section className='grid'>
+          <h1 className='text color-dark-primary' style={{ textAlign:"center" }}>The Amazing Adventures of Bub N' Gub</h1>
+
+          <motion.div
+            // animate={{ x: "100%" }}
+            // transition={{ repeat: Infinity, duration: 15 }}
+          >
+            
+            <div className="flex-wrap" style={{ width: '100vw' }}>
+              <>
+                {imagesArr.map(element => {
+                  return (
+                    <ImageContainer reqImg={element} />
+                  )
+                })}
+              </>
+            </div>
+
+
+          </motion.div>
+        </section>
+      </div>
+
     </>
   );
 }

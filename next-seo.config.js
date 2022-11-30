@@ -38,8 +38,8 @@ export default {
     */
     // Title
     title: "DEFAULT TITLE HERE",
-    titleTemplate: "Dragn' Drop | %s", // outputs: Dragn' Drop | DEFAULT TITLE HERE
-    defaultTitle: "Dragn' Drop", // outputs (if title=undefined): Dragn' Drop
+    titleTemplate: "Bub N' Gub | %s", // outputs: Bub N' Gub | DEFAULT TITLE HERE
+    defaultTitle: "Bub N' Gub", // outputs (if title=undefined): Bub N' Gub
 
     // Site Details
     description: "DEFAULT DESCRIPTION HERE",
@@ -49,8 +49,8 @@ export default {
     // Open Graph (:og)
     openGraph: {
       title: "DEFAULT TITLE HERE",
-      titleTemplate: "Dragn' Drop | %s", // outputs: Dragn' Drop | DEFAULT TITLE HERE
-      defaultTitle: "Dragn' Drop", // outputs (if title=undefined): Dragn' Drop
+      titleTemplate: "Bub N' Gub | %s", // outputs: Bub N' Gub | DEFAULT TITLE HERE
+      defaultTitle: "Bub N' Gub", // outputs (if title=undefined): Bub N' Gub
       type: "website",
       locale: "en_IE",
       url: process.env.NEXT_PUBLIC_SITE_URL,
