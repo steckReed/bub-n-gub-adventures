@@ -82,7 +82,6 @@ export default function Home() {
             <div className="flex-wrap" style={{ width: '100vw' }}>
               <>
                 {imagesArr.map(element => {
-                  console.log(element)
                   return (
                     <ImageContainer reqImg={element} />
                   )
