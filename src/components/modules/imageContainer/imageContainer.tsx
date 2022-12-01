@@ -1,10 +1,7 @@
-import Image from 'next/image';
 import { useState } from 'react';
+import ImageWithFallback from '../../ImageWithFallback/ImageWithFallback';
 
-export default function ImageContainer({ reqImg, i }){
-
-  const [paddingTop, setPaddingTop] = useState('0');
-  
+export default function ImageContainer({ reqImg, i }){  
   return(
   <>
     <div className={`shadow4 keen-slider__slide number-slide${i}`}
@@ -17,8 +14,9 @@ export default function ImageContainer({ reqImg, i }){
           width:"max-content",
         }} >
 
-      <Image
-        src={reqImg} // Route of the image file
+      <ImageWithFallback
+        src={`https://steckreed.github.io/bub-n-gub-adventures/images/${reqImg}`}
+        fallbackSrc={`https://bub-n-gub-adventures.vercel.app/images/${reqImg}`}
         height={200}
         width={250}
         alt='Your Name'
