@@ -125,7 +125,7 @@ export default function Home() {
       
       <div className='grid-container-custom'>
         
-        <section className='grid'>
+        <section className='grid' style={{ overflow:"hidden" }}>
           <h1 className='text color-custom-inverse' 
               style={{ textAlign:"center", padding:"0px 40px" }}>The Amazing Adventures of Bub N' Gub</h1>
 
