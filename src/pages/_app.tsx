@@ -8,7 +8,7 @@ import "@Styles/_global-styles.scss";
     ```
 */
 import { LogoJsonLd, DefaultSeo } from "next-seo";
-import SEO from "next-seo.config";
+import SEO from "../../next-seo.config";
 
 function MyApp({ Component, pageProps }) {
   return (

@@ -1,10 +1,87 @@
+import { useEffect, useMemo, useState } from "react";
 import { LogoJsonLd, NextSeo } from "next-seo";
 import { PageSEO } from "@Modules/SEO";
-import { useKeenSlider } from "keen-slider/react"
-import "keen-slider/keen-slider.min.css"
-import ImageContainer from '../components/modules/imageContainer/imageContainer';
+import { useKeenSlider } from "keen-slider/react";
+import type { KeenSliderOptions } from "keen-slider/react";
+import "keen-slider/keen-slider.min.css";
+import ImageContainer from "../components/modules/imageContainer/imageContainer";
+import fs from "fs";
+import path from "path";
+import sizeOf from "image-size";
 
-export default function Home() {
+type ImageData = {
+  filename: string;
+  displayWidth: number;
+  naturalWidth: number;
+  naturalHeight: number;
+};
+
+type HomeProps = {
+  images: ImageData[];
+};
+
+const SLIDE_HEIGHT = 200;
+
+function splitEvenly<T>(items: T[], buckets: number): T[][] {
+  const result: T[][] = [];
+  const baseSize = Math.floor(items.length / buckets);
+  const remainder = items.length % buckets;
+  let start = 0;
+
+  for (let i = 0; i < buckets; i += 1) {
+    const size = baseSize + (i < remainder ? 1 : 0);
+    result.push(items.slice(start, start + size));
+    start += size;
+  }
+
+  return result;
+}
+
+function shuffleArray<T>(items: T[]): T[] {
+  const shuffled = [...items];
+  for (let i = shuffled.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
+
+function repeatToMin<T>(items: T[], minLength: number): T[] {
+  if (items.length === 0) return items;
+  const result: T[] = [];
+  while (result.length < minLength) {
+    result.push(...items);
+  }
+  return result;
+}
+
+export async function getStaticProps() {
+  const imagesDir = path.join(process.cwd(), "public", "images");
+  const files = fs.readdirSync(imagesDir);
+  const imageFiles = files
+    .filter((file) => file.toLowerCase().endsWith(".webp"))
+    .sort();
+
+  const images: ImageData[] = imageFiles.map((file) => {
+    const filePath = path.join(imagesDir, file);
+    const buffer = fs.readFileSync(filePath);
+    const dimensions = sizeOf(new Uint8Array(buffer));
+    const naturalWidth = dimensions.width || 250;
+    const naturalHeight = dimensions.height || 200;
+    const displayWidth = Math.round((naturalWidth / naturalHeight) * SLIDE_HEIGHT);
+    return { filename: file, displayWidth, naturalWidth, naturalHeight };
+  });
+
+  const shuffledImages = shuffleArray(images);
+
+  return {
+    props: {
+      images: shuffledImages,
+    },
+  };
+}
+
+export default function Home({ images }: HomeProps) {
   // SEO
     // Per-Page SEO
     const SEO = PageSEO({
@@ -16,107 +93,94 @@ export default function Home() {
   // SEO
 
   
-  const imagesArrTop =[
-    'img-1.jpg',
-    'img-2.jpg',
-    'img-3.jpg',
-    'img-4.jpg',
-    'img-5.jpg',
-    'img-6.jpg',
-    'img-7.jpg',
-    'img-8.jpg',
-    'img-9.jpg',
-    'img-10.jpg',
-    'img-11.jpg',
-    'img-12.jpg',
-    'img-13.jpg',
-    'img-14.jpg',
-    'img-15.jpg',
-  ]
-  const imagesArrMiddle = [
-    'img-16.jpg',
-    'img-17.jpg',
-    'img-18.jpg',
-    'img-19.jpg',
-    'img-20.jpg',
-    'img-21.jpg',
-    'img-22.jpg',
-    'img-23.jpg',
-    'img-24.jpg',
-    'img-25.jpg',
-    'img-26.jpg',
-    'img-27.jpg',
-    'img-28.jpg',
-    'img-29.jpg',
-    'img-30.jpg',
-  ]
-  const imagesArrBottom = [
-    'img-31.jpg',
-    'img-32.jpg',
-    'img-33.jpg',
-    'img-34.jpg',
-    'img-35.jpg',
-    'img-36.jpg',
-    'img-37.jpg',
-    'img-38.jpg',
-    'img-39.jpg',
-    'img-40.jpg',
-    'img-41.jpg',
-    'img-42.jpg',
-    'img-43.jpg',
-    'img-44.jpg',
-    'img-45.jpg',
-    'img-46.jpg',
-    'img-47.jpg'
-  ]
+  const [viewportWidth, setViewportWidth] = useState(0);
+  const [slidersReady, setSlidersReady] = useState(false);
 
-  const animation = { duration: (imagesArrMiddle.length * 2700), easing: (t) => t }
+  useEffect(() => {
+    const updateWidth = () => {
+      setViewportWidth(window.innerWidth);
+    };
+    updateWidth();
+    window.addEventListener("resize", updateWidth);
+    return () => window.removeEventListener("resize", updateWidth);
+  }, []);
 
-  const [sliderTop] = useKeenSlider({
+  const [imagesArrTop, imagesArrMiddle, imagesArrBottom] = splitEvenly(images, 3);
+  const slideWidth = 250;
+  const slideSpacing = 10;
+  const minLoopSlides = Math.max(
+    20,
+    Math.ceil(((viewportWidth || 1024) + slideWidth) * 2 / (slideWidth + slideSpacing))
+  );
+  const imagesArrTopLoop = repeatToMin(imagesArrTop, minLoopSlides);
+  const imagesArrMiddleLoop = repeatToMin(imagesArrMiddle, minLoopSlides);
+  const imagesArrBottomLoop = repeatToMin(imagesArrBottom, minLoopSlides);
+  const maxRowLength = Math.max(
+    imagesArrTopLoop.length,
+    imagesArrMiddleLoop.length,
+    imagesArrBottomLoop.length,
+    1
+  );
+  const animation = useMemo(
+    () => ({ duration: maxRowLength * 1700, easing: (t) => t }),
+    [maxRowLength]
+  );
+
+  const makeAutoConfig = (direction: number): KeenSliderOptions => ({
     loop: true,
-    renderMode: "performance",
+    renderMode: "precision",
     drag: true,
-    slides: { perView: "auto", spacing: 10 },
+    slides: { perView: "auto" as const, spacing: 10 },
     created(s) {
-      s.moveToIdx(5, true, animation)
+      s.moveToIdx(direction, true, animation);
     },
     updated(s) {
-      s.moveToIdx(s.track.details.abs + 5, true, animation)
+      if (!s.animator?.active) {
+        s.moveToIdx(s.track.details.abs + direction, true, animation);
+      }
     },
     animationEnded(s) {
-      s.moveToIdx(s.track.details.abs + 5, true, animation)
+      s.moveToIdx(s.track.details.abs + direction, true, animation);
     },
-  })
-  const [sliderMiddle] = useKeenSlider({
-    loop: true,
-    renderMode: "performance",
-    drag: true,
-    slides: { perView: "auto", spacing: 10 },
-    created(s) {
-      s.moveToIdx(-5, true, animation)
+    dragStarted(s) {
+      s.animator?.stop();
     },
-    updated(s) {
-      s.moveToIdx(s.track.details.abs - 5, true, animation)
+    dragEnded(s) {
+      s.moveToIdx(s.track.details.abs + direction, true, animation);
     },
-    animationEnded(s) {
-      s.moveToIdx(s.track.details.abs - 5, true, animation)
-    },
-  })
-  const [sliderBottom] = useKeenSlider({
-    loop: true,
-    renderMode: "performance",
-    drag: true,
-    slides: { perView: "auto", spacing: 10 },
-    created(s) {
-      s.moveToIdx(5, true, animation)
-    },
-    updated(s) {
-      s.moveToIdx(s.track.details.abs + 5, true, animation)
-    },
-    animationEnded(s) {
-      s.moveToIdx(s.track.details.abs + 5, true, animation)
-    },
-  })
+  });
+
+  const topConfig = useMemo(() => makeAutoConfig(5), [animation]);
+  const middleConfig = useMemo(() => makeAutoConfig(-5), [animation]);
+  const bottomConfig = useMemo(() => makeAutoConfig(5), [animation]);
+
+  const [sliderTop, sliderTopInstance] = useKeenSlider(topConfig);
+  const [sliderMiddle, sliderMiddleInstance] = useKeenSlider(middleConfig);
+  const [sliderBottom, sliderBottomInstance] = useKeenSlider(bottomConfig);
+
+  useEffect(() => {
+    sliderTopInstance.current?.update();
+    sliderMiddleInstance.current?.update();
+    sliderBottomInstance.current?.update();
+  }, [
+    imagesArrTopLoop.length,
+    imagesArrMiddleLoop.length,
+    imagesArrBottomLoop.length,
+    viewportWidth,
+    sliderTopInstance,
+    sliderMiddleInstance,
+    sliderBottomInstance,
+  ]);
+
+  useEffect(() => {
+    if (viewportWidth === 0) return;
+    const id = requestAnimationFrame(() => {
+      setSlidersReady(true);
+    });
+    return () => cancelAnimationFrame(id);
+  }, [viewportWidth]);
+
+  const sliderKey = `keen-${minLoopSlides}`;
 
   return (
     <>
@@ -125,19 +189,23 @@ export default function Home() {
       
       <div className='grid-container-custom'>
         
-        <section className='grid' style={{ overflow:"hidden" }}>
-          <h1 className='text color-custom-inverse' 
-              style={{ textAlign:"center", padding:"0px 40px" }}>The Amazing Adventures of Bub N' Gub</h1>
+        <section className='grid' style={{ overflow:"hidden", opacity: slidersReady ? 1 : 0, transition: "opacity 0.3s ease" }}>
+          <h1 
+          className='text color-custom-inverse' 
+            style={{ textAlign:"center", padding:"0px 40px", fontSize: 'clamp(22px, 3.5vw, 75px)' }}
+          >
+            The Amazing Adventures of Bub N' Gub
+          </h1>
 
           <div className='flex-wrap'
               style={{ overflow: "hidden" }}>
 
-            <div ref={sliderTop} className="keen-slider" 
+            <div key={`top-${sliderKey}`} ref={sliderTop} className="keen-slider" 
                   style={{ overflow: "visible" }}>
 
-              {imagesArrTop.map((element, i) => {
+              {imagesArrTopLoop.map((element, i) => {
                 return (
-                  <ImageContainer reqImg={element} i={i+1} />
+                  <ImageContainer key={`top-${element.filename}-${i}`} imageData={element} i={i + 1} />
                 )
               })}
 
@@ -148,12 +216,12 @@ export default function Home() {
           <div className='flex-wrap'
             style={{ overflow: "hidden" }}>
 
-            <div ref={sliderMiddle} className="keen-slider"
+            <div key={`middle-${sliderKey}`} ref={sliderMiddle} className="keen-slider"
               style={{ overflow: "visible" }}>
 
-              {imagesArrMiddle.map((element, i) => {
+              {imagesArrMiddleLoop.map((element, i) => {
                 return (
-                  <ImageContainer reqImg={element} i={i + 1} />
+                  <ImageContainer key={`middle-${element.filename}-${i}`} imageData={element} i={i + 1} />
                 )
               })}
 
@@ -164,12 +232,12 @@ export default function Home() {
           <div className='flex-wrap'
             style={{ overflow: "hidden" }}>
 
-            <div ref={sliderBottom} className="keen-slider"
+            <div key={`bottom-${sliderKey}`} ref={sliderBottom} className="keen-slider"
               style={{ overflow: "visible" }}>
 
-              {imagesArrBottom.map((element, i) => {
+              {imagesArrBottomLoop.map((element, i) => {
                 return (
-                  <ImageContainer reqImg={element} i={i + 1} />
+                  <ImageContainer key={`bottom-${element.filename}-${i}`} imageData={element} i={i + 1} />
                 )
               })}
 
