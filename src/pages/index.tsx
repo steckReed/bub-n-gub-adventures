@@ -122,7 +122,7 @@ export default function Home({ images }: HomeProps) {
     1
   );
   const animation = useMemo(
-    () => ({ duration: maxRowLength * 2700, easing: (t) => t }),
+    () => ({ duration: maxRowLength * 1700, easing: (t) => t }),
     [maxRowLength]
   );
 
@@ -189,11 +189,13 @@ export default function Home({ images }: HomeProps) {
       
       <div className='grid-container-custom'>
         
-        <section className='grid' style={{ overflow:"hidden", 
-          // opacity: slidersReady ? 1 : 0, transition: "opacity 0.3s ease" 
-          }}>
-          <h1 className='text color-custom-inverse' 
-              style={{ textAlign:"center", padding:"0px 40px" }}>The Amazing Adventures of Bub N' Gub</h1>
+        <section className='grid' style={{ overflow:"hidden", opacity: slidersReady ? 1 : 0, transition: "opacity 0.3s ease" }}>
+          <h1 
+          className='text color-custom-inverse' 
+            style={{ textAlign:"center", padding:"0px 40px", fontSize: 'clamp(22px, 3.5vw, 75px)' }}
+          >
+            The Amazing Adventures of Bub N' Gub
+          </h1>
 
           <div className='flex-wrap'
               style={{ overflow: "hidden" }}>
