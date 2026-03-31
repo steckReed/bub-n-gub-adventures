@@ -1,30 +1,39 @@
-import { useState } from 'react';
 import ImageWithFallback from '../../ImageWithFallback/ImageWithFallback';
 
-export default function ImageContainer({ reqImg, i }){  
-  return(
-  <>
+type ImageData = {
+  filename: string;
+  displayWidth: number;
+  naturalWidth: number;
+  naturalHeight: number;
+};
+
+export default function ImageContainer({ imageData, i }: { imageData: ImageData; i: number }) {
+  const { filename, displayWidth, naturalWidth, naturalHeight } = imageData;
+
+  return (
     <div className={`shadow4 keen-slider__slide number-slide${i}`}
-        style={{ 
+        style={{
+          backgroundColor: '#233143',
           position: 'relative',
           borderRadius: '12px',
-          overflow:'hidden',
+          overflow: 'hidden',
           lineHeight: '0',
-          margin: 'auto 0px', 
-          width:"max-content",
-        }} >
+          margin: 'auto 0px',
+          width: displayWidth,
+          minWidth: displayWidth,
+        }}>
 
       <ImageWithFallback
-        src={`/images/${reqImg}`}
-        fallbackSrc={`/images/${reqImg}`}
-        height={200}
-        width={250}
+        src={`/images/${filename}`}
+        fallbackSrc={`/images/${filename}`}
+        height={naturalHeight}
+        width={naturalWidth}
         alt='Your Name'
         style={{
           width: '100%',
+          height: 'auto',
         }}
       />
     </div>
-  </>
-  )
+  );
 }
