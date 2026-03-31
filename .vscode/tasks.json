@@ -10,7 +10,7 @@
       "args": ["-c", "npm run dev"],
       "problemMatcher": [],
       "presentation": {
-        "group": "system-npm-build",
+        "group": "system-npm-dev",
         "echo": true,
         "focus": true,
         "panel": "shared"
