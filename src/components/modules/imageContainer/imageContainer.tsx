@@ -15,9 +15,8 @@ export default function ImageContainer({ reqImg, i }){
         }} >
 
       <ImageWithFallback
-        // src={`/images/${reqImg}`}
-        src={`https://steckreed.github.io/bub-n-gub-adventures/images/${reqImg}`}
-        fallbackSrc={`https://bub-n-gub-adventures.vercel.app/images/${reqImg}`}
+        src={`/images/${reqImg}`}
+        fallbackSrc={`/images/${reqImg}`}
         height={200}
         width={250}
         alt='Your Name'

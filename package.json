@@ -1,12 +1,14 @@
 {
-  "name": "shopify-nextjs",
+  "name": "bub-n-gub-adventures",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && next export",
+    "export": "next build && next export",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "firebase:deploy": "npm run export && firebase deploy"
   },
   "dependencies": {
     "@emotion/react": "^11.10.5",
@@ -17,6 +19,7 @@
     "@types/node": "18.11.9",
     "@types/react": "18.0.24",
     "@types/react-dom": "18.0.8",
+    "firebase": "^12.11.0",
     "framer-motion": "^7.6.15",
     "full-steck-tools": "^1.0.8",
     "jquery": "^3.6.1",
