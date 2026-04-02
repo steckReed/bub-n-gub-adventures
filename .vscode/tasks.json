@@ -1,7 +1,26 @@
-
 {
   "version": "2.0.0",
   "tasks": [
+    // npm install
+    {
+      "label": "npm install",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-c",
+        "npm i"
+      ],
+      "problemMatcher": [],
+      "presentation": {
+        "group": "system-npm-dev",
+        "echo": true,
+        "focus": true,
+        "panel": "shared"
+      },
+      "options": {
+        "cwd": "${workspaceFolder}"
+      }
+    },
     // npm run dev
     {
       "label": "npm run dev",
